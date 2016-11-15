@@ -417,10 +417,6 @@ class StormpathBaseUser(AbstractBaseUser, PermissionsMixin):
                 raise
 
 
-class StormpathUser(StormpathBaseUser):
-    pass
-
-
 @receiver(pre_save, sender=Group)
 def save_group_to_stormpath(sender, instance, **kwargs):
     try:
