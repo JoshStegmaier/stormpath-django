@@ -257,7 +257,11 @@ class StormpathBaseUser(AbstractBaseUser, PermissionsMixin):
             if key in self.STORMPATH_BASE_FIELDS:
                 account[key] = data[key]
             else:
-                account.custom_data[self.DJANGO_PREFIX + key] = data[key]
+                value = data[key]
+                if hasattr(value, 'isoformat'): # Handle datetime not being JSON serializable
+                    account.custom_data[self.DJANGO_PREFIX + key] = value.isoformat()
+                else:
+                    account.custom_data[self.DJANGO_PREFIX + key] = value
 
         return account
 
